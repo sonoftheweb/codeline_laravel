@@ -25,11 +25,6 @@ Vue.use(VueRouter);
 
 Vue.component('home', require('./components/films/Index.vue'));
 
-const routes = [
-    { title: 'View Film', icon: 'eye', path: }
-];
-
-
 const app = new Vue({
     el: '#app'
 });

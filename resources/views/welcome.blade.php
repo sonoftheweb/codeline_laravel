@@ -1,16 +1,30 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name', 'Films') }}</title>
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-        <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    </head>
-    <body>
+@extends('layouts.layout')
 
-    </body>
-</html>
+@section('title')
+    All Films
+@endsection
+
+@section('content')
+
+    <v-layout row>
+        <v-flex>
+            <v-card flat>
+                <v-list two-line>
+                    @foreach($films as $film)
+                        <template>
+                            <v-list-tile avatar ripple>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ $film->name }}</v-list-tile-title>
+                                    <v-list-tile-sub-title class="text--primary">{{ $film->genre }}</v-list-tile-sub-title>
+                                    <v-list-tile-sub-title>{{ \Carbon\Carbon::parse($film->release_date)->toDayDateTimeString() }}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider></v-divider>
+                        </template>
+                    @endforeach
+                </v-list>
+            </v-card>
+        </v-flex>
+    </v-layout>
+
+@endsection

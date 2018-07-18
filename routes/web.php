@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'FilmsController@index');
+Route::get('view/{id}', 'FilmsController@view');
