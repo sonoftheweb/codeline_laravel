@@ -132,7 +132,7 @@ class ApiController extends Controller
     {
         try {
             $this->setDefinition($resource);
-            $message = $this->definition['model']->create($request);
+            $message = $this->definition['model']->create($request->all());
 
             return $this->respondWithSuccessMessage(201, $message);
         } catch (\Throwable $e) {

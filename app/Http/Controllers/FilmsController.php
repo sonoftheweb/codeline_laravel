@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Film;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FilmsController extends Controller
@@ -41,10 +42,38 @@ class FilmsController extends Controller
         return view('welcome', compact('films'));
     }
 
-    public function view($id)
+    public function view($slug)
     {
-        $film = Film::find($id);
+        $film = Film::where('slug', $slug)->first();
         $title = $film->name;
         return view('view-film',compact('film', 'title'));
+    }
+
+    public function create()
+    {
+        $title = 'Create Film';
+        return view('create', compact('title'));
+    }
+
+    public function createFilm(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'release_date' => 'required',
+            'rating' => 'required',
+            'ticket_price' => 'required',
+            'country' => 'required',
+            'genre' => 'required',
+            'photo' => 'required'
+        ]);
+
+        $slug = str_slug($request->name);
+        $request->request->add(['slug' => $slug]);
+        $request->request->add(['release_date' => Carbon::parse($request->release_date)->toDateTimeString()]);
+
+        Film::create($request->all());
+
+        return redirect('/');
     }
 }
